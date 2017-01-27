@@ -1,6 +1,6 @@
 # USEMARCON-MARC21-MARC21RDA
 
-USEMARCON-ohjelmalla käytettävä konversiosääntö *suomalaisten kuvailusääntöjen* mukaisen MARC 21 -datan muuntamiseksi MARC 21 (RDA) -muotoon. Koska RDA-kuvailuohjeiden mukaista dataa ei voida tuottaa koneellisesti, konversio tuottaa tarkalleen ottaen ns. *hybriditietueita*, joissa on sekä ISBD- että RDA-kuvailuohjeiden piirteitä. Tästä aiheesta lisätietoa löytyy Kiti Vilkki-Erikssonin esityksestä [Melinda-talonmiehen tuokiossa 21.4.2016](https://www.kiwi.fi/display/melinda/Tapahtumat+ja+koulutukset#Tapahtumatjakoulutukset-tuokio5).
+USEMARCON-ohjelmalla käytettävä konversiosääntö *suomalaisten kuvailusääntöjen* mukaisen MARC 21 -datan muuntamiseksi MARC 21 (RDA) -muotoon. Koska RDA-kuvailuohjeiden mukaista dataa ei voida tuottaa koneellisesti, konversio tuottaa tarkalleen ottaen ns. *hybriditietueita*, joissa on niin paljon RDA-kuvailuohjeiden piirteitä kuin automaattisesti voidaan tuottaa. Tästä aiheesta lisätietoa löytyy Kiti Vilkki-Erikssonin esityksestä [Melinda-talonmiehen tuokiossa 21.4.2016](https://www.kiwi.fi/display/melinda/Tapahtumat+ja+koulutukset#Tapahtumatjakoulutukset-tuokio5).
 
 
 Kehitys
