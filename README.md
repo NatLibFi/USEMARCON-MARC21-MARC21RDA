@@ -22,4 +22,4 @@ marc-posti (at) helsinki.fi
 
 Description
 --
-A USEMARCON rule for converting bibliographic records from FINMARC to MARC 21 (RDA).
+A USEMARCON rule for converting bibliographic records MARC 21 (RDA).
