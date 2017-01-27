@@ -208,13 +208,15 @@
                           RegReplace('[^\\d|^\\.]', '', 'g'); \
                           Between(0, 16)
 
+#define macro VALIMERKIT | RegReplace('\\s*[:/=;\\.]?\\s*$h[^$]*( :| /| =| ;|\\.)', '\\1') // Säilyttää välimerkit
+
 000/1-5     | 000/1-5     | S
 000/6/      | 000/6/      | 'n'
 000/7-9     | 000/7-9/    | S
 000/10/     | 000/10/     | 'a'
 000/11-17/  | 000/11-17/  | S
 000/18/	    | 000/18/     | '4'
-000/19/	    | 000/19/	  | 'i'
+000/19/	    | 000/19/	    | 'i'
 000/20-24/  | 000/20-24/  | S
 
 #if (RegFind(@005, '-') >= 0)
@@ -460,38 +462,10 @@ G37$a           | 337(newest)$2   | 'rdamedia'
 024I2           | 024I2           | ' '
 024             | 024             | S
 
-025I1 | <DELI1 | S
-025I2 | <DELI2 | S
-025   | <DEL   | S
-
 028I1 | 028I1  | S
 028I2 | 028I2  | S
 028   | 028    | S
 028   | 028    | Sort('baq56789')
-
-029I1 | <DELI1 | S
-029I2 | <DELI2 | S
-029   | <DEL   | S
-
-032I1 | <DELI1 | S
-032I2 | <DELI2 | S
-032   | <DEL   | S
-
-035I1 | 035I1  | ' '
-035I2 | 035I2  | ' '
-035$a | 035$a  | S
-
-036I1 | <DELI1 | S
-036I2 | <DELI2 | S
-036   | <DEL   | S
-
-037I1 | <DELI1 | S
-037I2 | <DELI2 | S
-037   | <DEL   | S
-
-038I1 | <DELI1 | S
-038I2 | <DELI2 | S
-038   | <DEL   | S
 
 040I1 | 040I1  | ' '
 040I2 | 040I2  | ' '
@@ -639,11 +613,15 @@ B43 | 243 | S
 245$k | <F45$k | S
 245$n | <F45$n | S
 
-F45 | 245 | S
+F45 | 245 | VALIMERKIT
 
-249I1 | <DELI1 | S
-249I2 | <DELI2 | S
-249   | <DEL   | S
+246I1 | 246I1 | S
+246I2 | 246I2 | S
+246   | 246   | VALIMERKIT
+
+247I1 | 247I1 | S
+247I2 | 247I2 | S
+247   | 247   | VALIMERKIT
 
 250I1 | 250I1 | S
 250I2 | 250I2 | S
@@ -1209,23 +1187,27 @@ Y72   | 720    | S
 
 J73 | 730 | LOPPUPISTE
 
+740I1 | 740I1 | S
+740I2 | 740I2 | S
+740   | 740   | VALIMERKIT
+
 76?I1 | 76?I1 | S
 76?I2 | 76?I2 | S
-76?$c | 76?$c | S; VERKKOAINEISTO
-76?$i | 76?$i | S; VERKKOAINEISTO
-76?   | 76?   | S
+76?$c | 76?$c | VERKKOAINEISTO; VALIMERKIT
+76?$i | 76?$i | VERKKOAINEISTO; VALIMERKIT
+76?   | 76?   | VALIMERKIT
 
 77?I1 | 77?I1 | S
 77?I2 | 77?I2 | S
-77?$c | 77?$c | S; VERKKOAINEISTO
-77?$i | 77?$i | S; VERKKOAINEISTO; SIDOSASUT
-77?   | 77?   | S
+77?$c | 77?$c | VERKKOAINEISTO; VALIMERKIT
+77?$i | 77?$i | VERKKOAINEISTO; SIDOSASUT; VALIMERKIT
+77?   | 77?   | VALIMERKIT
 
 78?I1 | 78?I1 | S
 78?I2 | 78?I2 | S
-78?$c | 78?$c | S; VERKKOAINEISTO
-78?$i | 78?$i | S; VERKKOAINEISTO
-78?   | 78?   | S
+78?$c | 78?$c | VERKKOAINEISTO; VALIMERKIT
+78?$i | 78?$i | VERKKOAINEISTO; SIDOSASUT; VALIMERKIT
+78?   | 78?   | VALIMERKIT
 
 800I1 | 800I1  | S
 800I2 | 800I2  | S
