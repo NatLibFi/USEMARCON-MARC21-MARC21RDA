@@ -1,11 +1,7 @@
-﻿FINMARC --> MARC 21 (RDA)
-19.1.2017 - Kansalliskirjasto / TV
+﻿FINMARC --> MARC 21 (RDA / hybridi)
+27.1.2017 - Kansalliskirjasto / TV
 
 #define version 317
-
-#define macro Pvalimerkitys()         | If (PreviousSubIn(S, $p, '=1') = 'n') ReplaceOcc ('$p' By ',$p', '=1') Else ReplaceOcc ('$p' By '.$p', '=1'); \
-                                        If (PreviousSubIn(S, $p, '=2') = 'n') ReplaceOcc ('$p' By ',$p', '=2') Else ReplaceOcc ('$p' By '.$p', '=2'); \
-                                        If (PreviousSubIn(S, $p, '=3') = 'n') ReplaceOcc ('$p' By ',$p', '=3') Else ReplaceOcc ('$p' By '.$p', '=3')
 
 #define macro KAANNOKSET | RegReplace('diagrs\\.', 'diagrams', 'g'); \
                            RegReplace('incl\\.', 'includes', 'g'); \
@@ -76,6 +72,143 @@
                            RegReplace('liitt\\.', 'liitteitä', 'g'); \
                            RegReplace('[Vv]erkkokirja', 'verkkoaineisto', 'g')
 
+
+#define macro 300AE | RegReplace('\\b[Nn]\\.', 'noin', 'g'); \
+                      RegReplace('(\\d+) s\\.', '\\1 sivua', 'g'); \
+                      RegReplace('(\\[\\d+\\]) s\\.', '\\1 sivua', 'g'); \
+                      RegReplace('(\\d+) bl\\.', '\\1 blad', 'g'); \
+                      RegReplace('\\bs\\. (\\d+-\\d+)', 'sivut \\1', 'g'); \
+                      RegReplace('S\\. (\\d+-\\d+)', 'sivut \\1', 'g'); \
+                      RegReplace('1 vol\\.', '\\1 nide', 'g'); \
+                      RegReplace('(\\d+) vol\\.', '\\1 nidettä', 'g'); \
+                      RegReplace('\\bsek([^A-Z-a-z])', 's\\1', 'g'); \
+                      RegReplace('ss\\.', 'sivut', 'g'); \
+                      RegReplace('\\bkuv\\.', 'kuvitettu', 'g'); \
+                      RegReplace('verkkojulkaisu', 'verkkoaineisto', 'g'); \
+                      RegReplace('Verkkojulkaisu', 'Verkkoaineisto', 'g')
+                      
+#define macro 300BE | RegReplace('kartt\\.', 'karttoja', 'g'); \
+                      RegReplace('kuv\\.', 'kuvitettu', 'g'); \
+                      RegReplace('mv\\.', 'mustavalkoinen', 'g'); \
+                      RegReplace('vär\\.', 'värillinen', 'g'); \
+                      RegReplace('värikuv\\.', 'värikuvitus', 'g'); \
+                      RegReplace('nuott\\.', 'nuotteja', 'g'); \
+                      RegReplace('kuval\\.', 'kuvalehteä', 'g'); \
+                      RegReplace('diagrs\\.', 'diagrams', 'g'); \
+                      RegReplace('incl\\.', 'includes', 'g'); \
+                      RegReplace('fold(\\.)* maps', 'folded maps', 'g'); \
+                      RegReplace('(\\d+) irtol\\.', '\\1 irtolehteä'); \
+                      Replace('kuvas.' By 'kuvasivua'); \
+                      RegReplace('([^0-9]) (taul[.,])', '\\1 taulukkoja', 'g'); \
+                      RegReplace('\\btaul\\.', 'taulukkoja', 'g'); \
+                      RegReplace('hakem\\.|hakem(\$|\\b)', 'hakemisto', 'g'); \
+                      RegReplace('lyh\\. luett\\.', 'lyhenneluettelo', 'g'); \
+                      RegReplace('lähdel\\.|lähdel(\$|\\b)', 'lähdeluettelo', 'g'); \
+                      RegReplace('liitel\\.|liitel(\$|\\b)', 'liiteluettelo', 'g'); \
+                      RegReplace('(\\d*) taul\\.', '\\1 taulukkoa', 'g'); \
+                      RegReplace('(\\d*) karttal\\.', '\\1 karttaliitettä', 'g'); \
+                      RegReplace('\\] kuvas\\.|\\] kuvas(\$|\\b)', '] kuvasivua', 'g'); \
+                      RegReplace('1 liites\\.|1 liites(\$|\\b)', '1 liitesivu', 'g'); \
+                      RegReplace('liites\\.|liites(\$|\\b)', 'liitesivua', 'g'); \
+                      RegReplace('liitt\\.', 'liitteitä', 'g'); \
+                      RegReplace('[Vv]erkkokirja', 'verkkoaineisto', 'g')
+
+// Musiikin esityskokoonpanotermien avaaminen, osakenttä $m kentissä 130, 240, 600, 610, 630, 700, 710, 730, 800, 810, 830
+
+#define macro ESITYSKOKOONPANO | RegReplace('pianotrio', 'piano, viulu, sello'); \
+                                 RegReplace('pianokvartetti', 'piano, viulu, alttoviulu, sello'); \
+                                 RegReplace('pianokvintetti', 'piano, viulut (2), alttoviulu, sello'); \
+                                 RegReplace('\\bork\\.|\\bork(\$|\\b)', 'orkesteri', 'g'); \
+                                 RegReplace('jousiork\\.|jousiork(\$|\\b)', 'jousiorkesteri'); \
+                                 RegReplace('kamariork\\.|kamariork(\$|\\b)', 'orkesteri'); \
+                                 RegReplace('puhallinork\\.|puhallinork(\$|\\b)', 'puhallinorkesteri'); \
+                                 RegReplace('\\bkät\\.|\\bkät(\$|\\b)', 'kätisesti'); \
+                                 RegReplace('soitinääni', 'määrittämätön soitin'); \
+                                 RegReplace('\\bS\\s*(\\(\\d+)', 'sopraanot \\1', 'g'); \
+                                 RegReplace('\\bS\\.', 'sopraano', 'g'); \
+                                 RegReplace('\\bMz\\s*(\\(\\d+)', 'mezzosopraanot \\1', 'g'); \
+                                 RegReplace('\\bMz\\.', 'mezzosopraano', 'g'); \
+                                 RegReplace('\\bA\\s*(\\(\\d+)', 'altot \\1', 'g'); \
+                                 RegReplace('\\bA\\.', 'altto', 'g'); \
+                                 RegReplace('\\bKt\\s*(\\(\\d+)', 'kontratenorit \\1', 'g'); \
+                                 RegReplace('\\bKt\\.', 'kontratenori', 'g'); \
+                                 RegReplace('\\bT\\s*(\\(\\d+)', 'tenorit \\1', 'g'); \
+                                 RegReplace('\\bT\\.', 'tenori', 'g'); \
+                                 RegReplace('\\bBar\\s*(\\(\\d+)', 'baritonit \\1', 'g'); \
+                                 RegReplace('\\bBar\\.', 'baritoni', 'g'); \
+                                 RegReplace('\\bB\\s*(\\(\\d+)', 'bassot \\1', 'g'); \
+                                 RegReplace('\\bB\\.', 'basso', 'g'); \
+                                 If (RegFind(S, 'sovitettu, jousitrio') >= 0) Or (RegFind(S, ', jousitrio') < 0) RegReplace('jousitrio', 'viulu, alttoviulu, sello'); \
+                                 If (RegFind(S, 'sovitettu, jousikvartetti') >= 0) Or (RegFind(S, ', jousikvartetti') < 0) RegReplace('jousikvartetti', 'viulut (2), alttoviulu, sello'); \
+                                 If (RegFind(S, 'sovitettu, jousikvintetti') >= 0) Or (RegFind(S, ', jousikvintetti') < 0) RegReplace('jousikvintetti', 'viulut (2), alttoviulut (2), sello'); \
+                                 If (RegFind(S, 'sovitettu, puupuhallinkvartetti') >= 0) Or (RegFind(S, ', puupuhallinkvartetti') < 0) RegReplace('puupuhallinkvartetti', 'huilu, oboe, klarinetti, fagotti'); \
+                                 If (RegFind(S, 'sovitettu, puhallinkvintetti') >= 0) Or (RegFind(S, ', puhallinkvintetti') < 0) RegReplace('puhallinkvintetti', 'huilu, oboe, klarinetti, käyrätorvi, fagotti')
+
+#define macro TRIOT            | RegReplace('^piano, jouset', 'piano, viulu, sello'); \
+                                 RegReplace('^jouset', 'viulu, alttoviulu, sello')
+                                 
+#define macro KVARTETOT        | RegReplace('^piano, jouset', 'piano, viulu, alttoviulu, sello');\
+                                 RegReplace('^jouset', 'viulut (2), alttoviulu, sello'); \
+                                 RegReplace('^puupuhaltimet', 'huilu, oboe, klarinetti, fagotti')
+                              
+#define macro KVINTETOT        | RegReplace('^jouset', 'viulut (2), alttoviulut (2), sello'); \
+                                 RegReplace('^piano, jouset', 'piano, viulut (2), alttoviulu, sello'); \
+                                 RegReplace('^puhaltimet', 'huilu, oboe, klarinetti, käyrätorvi, fagotti')
+
+#define macro SOVITUSMERKINTO | RegReplace('sov\\.', 'sovitettu', 'g')
+
+#define macro RAAMATTU | RegReplace('\\bUT(\\b|\\.)', 'Uusi testamentti', 'g'); \
+                         RegReplace('\\bVT(\\b|\\.)', 'Vanha testamentti', 'g')
+
+
+#define macro FIKTIIVINENHAHMO | RegReplace('fikt\\.', '(fiktiivinen hahmo)', 'g'); \
+                                 RegReplace('fiktiivinen henkilö', '(fiktiivinen hahmo)', 'g')
+
+#define macro FIKTIIVINENYHTEISO | RegReplace('fikt\\.', '(fiktiivinen yhteisö)')
+
+#define macro AIKAMAAREET | RegReplace('\\bs\\.', 'syntynyt', 'g'); \
+                            RegReplace('\\bk\\.', 'kuollut', 'g'); \
+                            RegReplace('\\bn\\.', 'noin', 'g'); \
+                            RegReplace('\\bvs\\.', 'vuosisata', 'g')
+
+#define macro SIDOSASUT |  RegReplace('\\bsid\\.|\\bsid\\b', 'sidottu', 'g'); \
+                           RegReplace('\\bnid\\.|\\bnid\\b', 'nidottu', 'g'); \
+                           RegReplace('\\bvirh\\b|\\bvirh\\.', 'virheellinen', 'g'); \
+                           RegReplace('\\binb\\b|\\binb\\.', 'inbunden', 'g'); \
+                           RegReplace('\\bhft\\b|\\bhft\\.', 'häftad', 'g'); \
+                           RegReplace('\\bpbk\\b|\\bpbk\\.', 'paperback', 'g'); \
+                           RegReplace('\\bhbk\\b|\\bhbk\\.', 'hardback', 'g'); \
+                           RegReplace('\\balk\\b|\\balk\\.', 'alkaline', 'g'); \
+                           RegReplace('\\bbk\\b|\\bbk\\.', 'book', 'g'); \
+                           RegReplace('\\bverkkojulk\\b|\\bverkkojulk\\.', 'verkkoaineisto', 'g')
+
+#define macro VERKKOAINEISTO | RegReplace('paperimuodossa', 'painettuna', 'g'); \
+                               RegReplace('[Pp]aperisena', 'painettuna', 'g'); \
+                               RegReplace('Verkkokirja', '1 verkkoaineisto', 'g'); \
+                               RegReplace('[Ii]nternet-julkaisu\\b', 'verkkoaineisto', 'g'); \
+                               RegReplace('paperisena', 'painettuna', 'g'); \
+                               RegReplace('[Ee]lektroninen aineisto', 'Verkkoaineisto', 'g'); \
+                               RegReplace('erkkojulkaisu', 'erkkoaineisto'); \
+                               RegReplace('Elektroninen julkaisu|Verkkojulkaisuun', 'Linkki verkkoaineistoon')
+
+#define macro FUNKTIOVALIMERKIT | RegReplace('(\\)|[Mm]r\\.|[Mm]rs\\.|[Jj]r\\.|Ph\\.+\\s+D\\.|Dr\\.|Sr\\.|[Rr]ev\\.|\\s[A-Za-z]\\.|\\.[A-Za-z]\\.)($4|$e)', '\\1,\\2', 'g'); \
+                                  RegReplace('\\.($[e|4])', ',\\1', 'g'); \
+                                  RegReplace(',,', ',')
+                                  
+
+#define macro FUNKTIOT2 | RegReplace('(\\)|[Mm]r\\.|[Mm]rs\\.|[Jj]r\\.|Ph\\.+\\s+D\\.|Dr\\.|Sr\\.|[Rr]ev\\.|\\s[A-Za-z]\\.|\\.[A-Za-z]\\.)($4|$j)', '\\1,\\2', 'g'); \
+                          RegReplace('\\.($[j|4])', ',\\1', 'g'); \
+                          RegReplace(',,', ',')
+
+// Lisää loppupisteen kenttään, jos se ei lopu johonkin seuraavista merkeistä: ), ], ?, !, -, .
+#define macro LOPPUPISTE | If ( (RegFind('(\\)|\\]|\\?|\\!|-|\\.)\$') <0 ) ) Then S + '.' Else S
+
+// Parsitaan muotoa "2006-09-07·11:03:23+02" oleva aikaleima standardin mukaiseksi -> "20060907110323.0"
+
+#define macro AIKALEIMA | RegReplace('\\+', '.', 'g'); \
+                          RegReplace('[^\\d|^\\.]', '', 'g'); \
+                          Between(0, 16)
+
 000/1-5     | 000/1-5     | S
 000/6/      | 000/6/      | 'n'
 000/7-9     | 000/7-9/    | S
@@ -84,6 +217,10 @@
 000/18/	    | 000/18/     | '4'
 000/19/	    | 000/19/	  | 'i'
 000/20-24/  | 000/20-24/  | S
+
+#if (RegFind(@005, '-') >= 0)
+005         | 005         | AIKALEIMA
+#endif
 
 #if (@007/1-2/ != 'tu')
 007        | 007        | S; RegReplace(' ', '|')
@@ -316,15 +453,6 @@ G37$a           | 337(newest)$2   | 'rdamedia'
 020$z | 020$z  | S; RegReplace('[\\s](.*)', ''); KAANNOKSET
 020$z | 020$q  | If (RegFind(@020$z, '\\(') >= 0) Then S; RegReplace('(.*)\\(', ''); RegReplace('\\)', ''); KAANNOKSET
 
-021I1             | <P20I1          | ' '
-021I2             | <P20I2          | ' '
-021$a             | <P20$a          | S
-021$c             | <P20$a          | +' (' +S +')'
-021$d             | <P20$c          | S
-021$e             | <P20$c          | If Exists ($d) Then ($d+', ' + S) Else S
-021$z             | <P20$z          | S
-P20               | 020(new)        | S;
-                                      Replace ('$c' By ' :$c', Strict)
 022I1           | 022I1           | If (I1=0 Or I1=1) Then S Else ' '
 022I2           | 022I2           | ' '
 022             | 022             | S
@@ -431,61 +559,6 @@ D41$h           | 041$h           | Table('041-kielikoodit.tbl'); Replace ('$x' 
 051I2 | <DELI2 | S
 051   | <DEL   | S
 
-053   | 090(new)        | S
-
-054   | 090(new)        | S
-
-055   | 090(new)        | S
-
-056   | 090(new)        | S
-
-057   | 090(new)        | S
-
-058   | 090(new)        | S
-
-059   | 090(new)        | S
-
-060   | 090(new)        | S
-
-061   | 090(new)        | S
-
-062   | 090(new)        | S
-
-063   | 090(new)        | S
-
-064   | 090(new)        | S
-
-065   | 090(new)        | S
-
-066   | 090(new)        | S
-
-067   | 090(new)        | S
-
-068   | 090(new)        | S
-
-069   | 090(new)        | S
-
-070   | 090(new)        | S
-
-071   | 090(new)        | S
-
-072   | 090(new)        | S
-
-073   | 090(new)        | S
-
-074   | 090(new)        | S
-
-075   | 090(new)        | S
-
-076   | 090(new)        | S
-
-077   | 090(new)        | S
-
-078   | 090(new)        | S
-
-079   | 090(new)        | S
-
-
 061I1 | <DELI1 | S
 061I2 | <DELI2 | S
 061   | <DEL   | S
@@ -506,249 +579,139 @@ D41$h           | 041$h           | Table('041-kielikoodit.tbl'); Replace ('$x' 
 079I2 | <DELI2 | S
 079   | <DEL   | S
 
-080$a           | 080(new)$a      | S;
-                                    Replace ('(' By '$x(');
-                                    Replace ('-' By '$x-');
-                                    Replace ('=' By '$x=');
-                                    Replace ('"' By '$x"');
-                                    Replace ('*' By '$x*')
 
-081$a           | <AAF(new)$a(nt) | S
-AAF             | 084(new)        | S + '$2kssb'
 
-085$a           | 080(new)$a      | S;
-                                    Replace ('(' By '$x(');
-                                    Replace ('-' By '$x-');
-                                    Replace ('=' By '$x=');
-                                    Replace ('"' By '$x"');
-                                    Replace ('*' By '$x*')
+100I1 | 100I1  | S
+100I2 | 100I2  | S
+100$a | <A10$a | S; If ((100$c Follows 100$a) And RegFind(@100$c, 'fikt') >= 0) Delete (',', At Ending)
+100$b | <A10$b | S; If ((100$c Follows 100$b) And RegFind(@100$c, 'fikt') >= 0) Delete (',', At Ending)
+100$c | <A10$c | FIKTIIVINENHAHMO
+100$d | <A10$d | AIKAMAAREET
+100$e | <A10$e | Table ('Funktiotermit.tbl'); Delete('.', At Ending); If (NextSub($e) = '') Then S + '.' Else S + ','
+100$4 | <A10$e | If (Not (Exists(@100$e)) And InTable(S, 'Funktiokoodit.tbl')) Then Table ('Funktiokoodit.tbl') + '.' Else S
+100$? | <A10$? | S
 
-082I1           | 082I1           | '1'
-082I2           | 082I2           | ' '
-082$a           | 082$a           | S
+A10   | 100    | FUNKTIOVALIMERKIT
 
-084I1 | 084I1  | S
-084I2 | 084I2  | S
-084   | 084    | S; RegReplace('$5[^$]*', '')
+110I1 | 110I1  | S
+110I2 | 110I2  | S
+110$c | <B11$c | FIKTIIVINENYHTEISO; AIKAMAAREET
+110$e | <B11$e | Table ('Funktiotermit.tbl'); LOPPUPISTE
+110$4 | <B11$e | If (Not (Exists(@110$e)) And InTable(S, 'Funktiokoodit.tbl')) Then Table ('Funktiokoodit.tbl') + '.' Else S
+110$? | <B11$? | S
 
-083I1           | 050I1           | ' '
-083I2           | 050I2           | '0'
-083$a           | 050$a           | S
+B11   | 110    | FUNKTIOVALIMERKIT
 
-085$a           | 080(new)$a      | S;
-                                    Replace ('(' By '$x(');
-                                    Replace ('-' By '$x-');
-                                    Replace ('=' By '$x=');
-                                    Replace ('"' By '$x"');
-                                    Replace ('*' By '$x*')
+111I1 | 111I1  | S
+111I2 | 111I2  | S
+111$j | <C11$j | Table ('Funktiotermit.tbl')
+111$4 | <C11$j | Table ('Funktiokoodit.tbl') + '.'
+111$? | <C11$? | S
 
-090             | 060(new)I1      | ' '
-090             | 060(newest)I2   | '0'
-090             | 060(newest)     | S
+C11   | 111    | FUNKTIOT2
 
-092$a           | <AAA(new)$a(nt) | S
-AAA             | 084(new)        | S + '$2msc'
+130I1 | 130I1  | S
+130I2 | 130I2  | S
 
-093$a           | <AAB(new)$a(nt) | S
-AAB             | 084(new)        | S + '$2acmccs'
-
-094$a           | <AAC(new)$a(nt) | S
-AAC             | 084(new)        | S + '$2gfdc'
-
-095$a           | <AAD(new)$a(nt) | S
-AAD             | 084(new)        | S + '$2rubbk'
-
-098$a           | <AAE(new)I1     | If (I1 = '1') Then '9' Else ' '
-098$a           | <AAE(newest)I2  | I2
-098$a           | <AAE(newest)$a(nt) | S
-AAEI1           | 084(new)I1      | S
-AAEI2           | 084(newest)I2   | S
-AAE             | 084(newest)     | S + '$2ykl'
-
-100I1           | 100I1           | If (I1=1 Or I1=2) Then '1' Else S
-100I2           | 100I2           | ' '
-100$a           | <E00$a          | S
-100$h           | <E00$a          | + ', '+S; RegReplace('\\s*\\([^\\.]{2,} [^\\.]{2,}\\)\$', '')
-100$f           | <E00$c          | S
-100$c           | <E00$d          | S
-100$x           | <E00$e          | Table('Funktiotermit.tbl'); RegReplace('^\\((.*)\\)\$', '\\1')
-E00             | 100             | S;
-                                    MoveBefore ('d', $e);
-                                    MoveBefore ('c', $d);
-                                    Replace ('$c' By ',$c');
-                                    Replace ('$d' By ',$d');
-                                    Replace ('$e' By ',$e');
-                                    If (((RegFind('.*\\$(.)') < 0) Or (RegMatch(1) != '4')) And RegFind('\\.\$') < 0 And RegFind('\\-\$') < 0) S + '.'
-	 
-110I1           | 110I1           | If (S = '1') Then '1' Else If ((S = '2' Or S = ' ') And (RegFind(@110$a, ', ') >= 0)) Then '0' Else '2'
-110I2           | 110I2           | ' '
-110$p           | <E10$a          | S
-110$a           | <E10$a          | If Exists($p) Then $p +'. '+S Else S  
-110$c           | <E10$b          | S
-110$i           | <E10$n          | '(' + S + ')'
-110$k           | <E10$d          | '(' + S + ')'
-110$j           | <E10$c          | '(' + S + ')'
-110$f           | <E10$a          | + ' (' + S + ')'
-110$x           | <E10$e          | Table ('Funktiotermit.tbl'); RegReplace('^\\((.*)\\)\$', '\\1')
-E10             | 110             | If (((RegFind('.*\\$(.)') < 0) Or (RegMatch(1) != '4')) And RegFind('\\.\$') < 0 And RegFind('\\)\$') < 0) Then S + '.' Else S;
-                                    Replace ('$b' By '.$b');
-                                    Replace (')$d(' By ' :$d', Strict);
-                                    Replace (')$c(' By ' :$c', Strict);
-                                    Replace ('$e' By ',$e')
-
-111I1           | 111I1           | If (RegFind(@111$a, ', ') >= 0) Then '0' Else '2'
-111I2           | 111I2           | ' '
-111$a           | <E11$a          | S
-111$c           | <E11$e          | S
-111$i           | <E11$n          | '(' + S + ')'
-111$k           | <E11$d          | '(' + S + ')'
-111$j           | <E11$c          | '(' + S + ')'
-111$f           | <E11$a          | + ' (' + S + ')'
-111$x           | <E11$j          | Table ('Funktiotermit.tbl'); RegReplace('^\\((.*)\\)\$', '\\1')
-E11             | 111             | If (((RegFind('.*\\$(.)') < 0) Or (RegMatch(1) != '4')) And RegFind('\\.\$') < 0) Then S + '.' Else S;
-                                    Replace ('$e' By '.$e');
-                                    Replace (')$d(' By ' :$d', Strict);
-                                    Replace (')$c(' By ' :$c', Strict);
-                                    Replace ('$j' By ',$j')
-
-210I1           | 210I1           | '1'
-210I2           | 210I2           | ' '
-210$a           | 210$a           | S
-210$b           | 210$b           | '(' + S + ')'; Replace ('Atk-tall' By 'Elektroninen ain')
-210$c           | 210$b           | + ' (' + S + ')'
-
-222I1           | 222I1           | ' '
-222I2           | 222I2           | S; Replace (' ' By '0')
-222$a           | 222$a           | S
-222$b           | 222$b           | '(' + S + ')'; Replace ('Atk-tallenne' By 'Elektroninen aineisto')
-
-240I1           | 130I2           | If (Not Exists(@1??)) Then ' '
-240I2           | 130I1           | If (Not Exists(@1??)) Then S; Replace (' ' By '0')
-240I1           | 240I1           | If (Exists(@1??)) Then '1'
-240I2           | 240I2           | If (Exists(@1??)) Then S; Replace (' ' By '0')
-240$a           | <E40$a          | S
-240$n           | <E40(nt)$g(1)   | If ((Not Exists(@1??)) And (RegFind('[Tt]rad.') >= 0)) Then '(Trad.)'
-240$f           | <E40$m          | S
-240$i           | <E40$A          | + If (D != '') Then ', ' + S Else S
-240$j           | <E40$A          | + If (D != '') Then ', ' + S Else S
-240$k           | <E40$A          | + If (D != '') Then ', ' + S Else S
-240$m           | <E40$r          | S
-
-240$p           | <E40$a          | + If (RegFind('[Vv]alikoima') < 0) Then ' (' + S + ')'
-//2//240$p           | <E40(nt)$g(1)   | + If (RegFind('[Vv]alikoima') < 0) Then {
-//2//                                      If (D != '') Then ' (' + S + ')' Else '(' + S +  //2//     //2//                                ')';
-//2//                                      }           
-240$g           | <E40$n          | S
-240$s           | <E40$p          | If (RegFind('[Vv]alikoima') < 0) Then S
-240$s           | <E40$k          | If (RegFind('[Vv]alikoima') >= 0) Then 'Valikoima'
-240$t           | <E40$s          | S
-240$q           | <E40$s          | S
-240$u           | <E40$o          | S
-240$l           | <E40$l          | S
-240$p           | <E40$k          | If (RegFind('[Vv]alikoima') >= 0) Then 'Valikoima'
-E40             | 130             | If (Not Exists(@1??)) Then S;
-                                    Replace ('$m' By ',$m');
-                                    Replace ('$r' By ',$r');
-                                    Pvalimerkitys();
-                                    Replace ('$s' By '.$s');
-                                    Replace ('$o' By ';$o');
-                                    Replace ('$l' By ',$l');
-                                    Replace ('$n' By '.$n');
-                                    Replace ('$A' By ',$n'); 
-                                    Replace ('$k' By '.$k');
-                                    RegReplaceTable('pieni-isoksi-osakentan-alussa.tbl');
-                                    MoveBefore('l', $o, 'l', '', '', ',|;|.');
-                                    If (RegFind('[\\)\\.\\-]\$') < 0) Then S + '.'
-
-// Jos inputissa on 1XX-kenttä, tehdään 240:sta 240
-E40             | 240             | If (Exists(@1??)) Then S;
-                                    Replace ('$m' By ',$m');
-                                    Replace ('$r' By ',$r');
-                                    Pvalimerkitys();
-                                    Replace ('$k' By '.$k');
-                                    Replace ('$s' By '.$s');
-                                    Replace ('$o' By ';$o');
-                                    Replace ('$l' By ',$l');
-                                    Replace ('$n' By '.$n');
-                                    Replace ('$A' By ',$n');
-                                    RegReplaceTable('pieni-isoksi-osakentan-alussa.tbl');
-                                    MoveBefore('l', $o, 'l', '', '', ',|;|.');
-                                    RegReplace('\\.\$', '')
-
-241I1           | <E41I1          | S
-241I2           | <E41I2          | S
-241$a           | <E41$a          | S
-
-#if (Exists(@100) Or Exists(@110) Or Exists(@111))
-E41I1           | <F41I1          | If (nt=1 And (Not Exists(%240))) Then S
-E41I2           | <F41I2          | If (nt=1 And (Not Exists(%240))) Then S
-E41             | <F41            | If (nt=1 And (Not Exists(%240))) Then S
-F41I1           | 240I1           | '1'
-F41I2           | 240I2           | S; Replace (' ' By '0')
-F41$a           | 240$a           | S
-#endif
-#if (Not (Exists(@100) Or Exists(@110) Or Exists(@111)))
-E41I1           | <F41I1          | If (nt=1 And (Not Exists(%240))) Then S
-E41I2           | <F41I2          | If (nt=1 And (Not Exists(%240))) Then S
-E41             | <F41            | If (nt=1 And (Not Exists(%240))) Then S
-F41I2           | 130I1           | S; Replace (' ' By '0')
-F41I1           | 130I2           | ' '
-F41$a           | 130$a           | S
+#if (RegFind(@130$a, 'Triot') >= 0)
+130$m | <A30$m | TRIOT; ESITYSKOKOONPANO
 #endif
 
-E41I1           | <G41I1          | If (nt>1 Or (Exists(%240(1)))) Then S
-E41I2           | <G41I2          | If (nt>1 Or (Exists(%240(1)))) Then S
-E41             | <G41            | If (nt>1 Or (Exists(%240(1)))) Then S
-G41I1           | 730(new)I2      | ' '
-G41I2           | 730(newest)I1   | S; Replace (' ' By '0')
-G41$a           | 730(newest)$a   | S + '.'
+#if (RegFind(@130$a, 'Kvartetot') >= 0)
+130$m | <A30$m | KVARTETOT; ESITYSKOKOONPANO
+#endif
 
+#if (RegFind(@130$a, 'Kvintetot') >= 0)
+130$m | <A30$m | KVINTETOT; ESITYSKOKOONPANO
+#endif
 
-242I1           | 242I1           | '1'
-242I2           | 242I2           | S; Replace (' ' By '0')
-242$a           | 242$a           | If (RegFind('[\\)\\.]\$') < 0) Then S + '.' Else S;
+#if (RegFind(@130$a, 'Triot') < 0) And (RegFind(@130$a, 'Kvartetot') < 0) And (RegFind(@130$a, 'Kvintetot') < 0)
+130$m | <A30$m | ESITYSKOKOONPANO
+#endif
 
-245I1 | 245I1  | If (Exists(@100) Or Exists(@110) Or Exists(@111) Or Exists(@130)) Then '1' Else '0'
+130$o | <A30$o | SOVITUSMERKINTO; ESITYSKOKOONPANO
+130$p | <A30$p | RAAMATTU
+130$? | <A30$? | S
+
+A30 | 130 | LOPPUPISTE
+
+222I1 | 222I1 | S
+222I2 | 222I2 | S
+222   | 222   | VERKKOAINEISTO
+
+240I1 | 240I1  | S
+240I2 | 240I2  | S
+
+#if (RegFind(@240$t, 'Triot') >= 0) Or (RegFind(@240$a, 'Triot') >= 0)
+240$m | <F40$m | TRIOT; ESITYSKOKOONPANO
+#endif
+
+#if (RegFind(@240$t, 'Kvartetot') >= 0) Or (RegFind(@240$a, 'Kvartetot') >= 0)
+240$m | <F40$m | KVARTETOT; ESITYSKOKOONPANO
+#endif
+
+#if (RegFind(@240$t, 'Kvintetot') >= 0) Or (RegFind(@240$a, 'Kvintetot') >= 0)
+240$m | <F40$m | KVINTETOT; ESITYSKOKOONPANO
+#endif
+
+// Jos aiemmat säännöt eivät tärpänneet eli väliaikaista kenttää F40$m ei ole luotu
+#if Not Exists(F40$m)
+240$m | <F40$m | ESITYSKOKOONPANO
+#endif
+                 
+240$o | <F40$o | SOVITUSMERKINTO; ESITYSKOKOONPANO
+240$p | <F40$p | RAAMATTU
+240$? | <F40$? | S
+
+F40   | 240    | S
+
+243I1 | 243I1  | S
+243I2 | 243I2  | S
+
+#if (RegFind(@243$a, 'Triot') >= 0)
+243$m | <B43$m | TRIOT; ESITYSKOKOONPANO
+#endif
+
+#if (RegFind(@243$a, 'Kvartetot') >= 0)
+243$m | <B43$m | KVARTETOT; ESITYSKOKOONPANO
+#endif
+
+#if (RegFind(@243$a, 'Kvintetot') >= 0)
+243$m | <B43$m | KVINTETOT; ESITYSKOKOONPANO
+#endif
+
+#if (RegFind(@243$a, 'Triot') < 0) And (RegFind(@243$a, 'Kvartetot') < 0) And (RegFind(@243$a, 'Kvintetot') < 0)
+243$m | <B43$m | ESITYSKOKOONPANO
+#endif
+
+243$o | <B43$o | SOVITUSMERKINTO; ESITYSKOKOONPANO
+243$? | <B43$? | S
+
+B43 | 243 | S
+
+#if (Not Exists(%100)) And (Not Exists(%110)) And (Not Exists(%111)) And (Not Exists(%130))
+245I1 | 245I1  | '0'
+#endif
+
+#if Not (Exists(%245I1))
+245I1 | 245I1  | S
+#endif
+
 245I2 | 245I2  | S
-// Aineiston yleismäärettä 245$h ei enää käytetä, sitä ei siis kopioida.
-245$a            | <F45$a          | If Exists(@245$h) And Not Exists(@245$b) Then S + ' /' Else S
-245$b            | <F45$b          | S
-245$c            | <F45$c          | S
-245$f            | <F45$f          | S
-245$g            | <F45$g          | S
-245$k            | <F45$k          | S
-245$n            | <F45$n          | S
-245$p            | <F45$p          | S
-245$6            | <F45$6          | S
-245$8            | <F45$8          | S
+
+245$a | <F45$a | S
+245$b | <F45$b | S
+245$c | <F45$c | S; RegReplace('\\bet al\\.*', 'ja muita', 'g')
+245$f | <F45$f | S
+245$g | <F45$g | S
+245$p | <F45$p | S
+245$6 | <F45$6 | S
+245$8 | <F45$8 | S
+245$k | <F45$k | S
+245$n | <F45$n | S
+
 F45 | 245 | S
 
-246I1            | 246I1           | S
-246I2            | 246I2           | S
-246$a            | <G46$a          | If Exists(@246$h) And Not Exists(@246$b) Then S + ' /' Else S
-246$b            | <G46$b          | S
-246$f            | <G46$f          | S
-246$g            | <G46$g          | S
-246$i            | <G46$i          | S
-246$n            | <G46$n          | S
-246$p            | <G46$p          | S
-246$6            | <G46$6          | S
-246$8            | <G46$8          | S
-G46 | 246 | S
-
-247I1            | 247I1           | S
-247I2            | 247I2           | S
-247$a            | <K47$a          | If Exists(@247$h) And Not Exists(@247$b) Then S + ' /' Else S
-247$b            | <K47$b          | S
-247$f            | <K47$f          | S
-247$g            | <K47$g          | S
-247$n            | <K47$n          | S
-247$p            | <K47$p          | S
-247$x            | <K47$x          | S
-247$6            | <K47$6          | S
-247$8            | <K47$8          | S
-K47 | 247 | S
-			
 249I1 | <DELI1 | S
 249I2 | <DELI2 | S
 249   | <DEL   | S
@@ -1228,12 +1191,12 @@ C05   | 505(newest)   | S; If (RegFind('[\\.\\)!]\$') < 0) S + '.'
 
 700I1 | 700I1  | S
 700I2 | 700I2  | S
-700$e | 700$e  | Table ('Funktiotermit.tbl')
-700$? | 700$?   | S;
+700$e | 700$e  | Table ('Funktiotermit.tbl'); ESITYSKOKOONPANO; LOPPUPISTE
+700$? | 700$?   | S
 
 710I1 | 710I1  | S
 710I2 | 710I2  | S
-710$e | 710$e  | Table ('Funktiotermit.tbl')
+710$e | 710$e  | Table ('Funktiotermit.tbl'); ESITYSKOKOONPANO
 710$? | 710$?  | S
 
 740I1            | 740I1           | S
@@ -1420,9 +1383,9 @@ R72 | 772 | S
 
 773I1            | 773I1           | S
 773I2            | 773I2           | S
-773$a            | <J73$a          | S
+773$a            | <J73$a          | Table ('Funktiotermit.tbl')
 773$b            | <J73$b          | S
-773$d            | <J73$d          | S
+773$d            | <J73$d          | RegReplace('[Ss]\\.\\s*[Ll]\\.', 'kustannuspaikka tuntematon')
 773$g            | <J73$g          | S
 773$h            | <J73$h          | S
 773$i            | <J73$i          | S
